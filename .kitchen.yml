@@ -1,0 +1,29 @@
+# When editing this file, remember that http://www.yamllint.com is your friend :-)
+---
+
+driver:
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 2
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-7.2
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.33.23"}]
+
+    driver:
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
+
+
+suites:
+  - name: haproxy
+    run_list:
+      - recipe[alfresco-internal-lb::default]

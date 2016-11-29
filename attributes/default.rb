@@ -1,0 +1,15 @@
+default['internal_lb']['engine'] = 'haproxy'
+default['internal_lb']['log_level'] = 'info'
+default['internal_lb']['enable_ssl_header'] = false
+default['internal_lb']['hostname'] = '127.0.0.1'
+default['internal_lb']['port'] = '9001'
+default['internal_lb']['rsyslog_bind'] = true
+default['internal_lb']['certs']['ssl_folder'] = '/etc/pki/tls/certs'
+default['internal_lb']['certs']['filename'] = 'alfresco'
+default['internal_lb']['webserver']['ssl_port'] = '443'
+default['internal_lb']['share_port'] = 8080
+default['internal_lb']['solr_port'] = 8090
+default['internal_lb']['activiti_port'] = 8060
+default['internal_lb']['alfresco_port'] = 8070
+default['internal_lb']['ec2']['install_haproxy_discovery'] = false
+default['internal_lb']['logging_json_enabled'] = false

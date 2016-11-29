@@ -1,0 +1,26 @@
+# When editing this file, remember that http://www.yamllint.com is your friend :-)
+---
+driver:
+  name: docker
+  use_sudo: false
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-7
+    driver_config:
+      image: centos:7
+      platform: centos
+      run_command: /usr/sbin/init
+      privileged: true
+      forward:
+      - 9001:9001
+
+suites:
+  - name: haproxy
+    run_list:
+      - recipe[alfresco-internal-lb::default]

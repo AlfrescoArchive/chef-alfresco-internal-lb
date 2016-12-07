@@ -9,4 +9,6 @@ version          '0.1.0'
 issues_url       'https://github.com/Alfresco/chef-alfresco-internal-lb/issues'
 source_url       'https://github.com/Alfresco/chef-alfresco-internal-lb'
 
+depends 'commons'
 depends 'haproxy', '~> 1.6.6'
+depends 'netstat', '~> 0.1.0'

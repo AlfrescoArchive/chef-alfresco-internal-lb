@@ -26,4 +26,5 @@ platforms:
 suites:
   - name: haproxy
     run_list:
+      - recipe[netstat]
       - recipe[alfresco-internal-lb::default]

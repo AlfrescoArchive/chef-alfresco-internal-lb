@@ -71,7 +71,7 @@ default['haproxy']['general_config'] = [
 
 default['haproxy']['frontends']['internal']['entries'] = [
   'mode http',
-  "bind #{node['haproxy']['bind_ip']}:#{node['internal-lb']['port']}",
+  "bind #{node['haproxy']['bind_ip']}:#{node['internal_lb']['port']}",
   'capture request header X-Forwarded-For len 64',
   'capture request header User-agent len 128',
   'capture request header Cookie len 64',
@@ -190,7 +190,7 @@ default['haproxy']['backends']['roles']['solr']['entries'] = ['option httpchk GE
 default['haproxy']['backends']['roles']['solr']['port'] = node['internal_lb']['solr_port']
 
 # Activiti Haproxy configuration
-if node['alfresco']['components'].include?('activiti')
+if node['internal_lb']['components'].include?('activiti')
   default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
   default['haproxy']['backends']['roles']['activiti']['entries'] = ['option httpchk GET /activiti', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
   default['haproxy']['backends']['roles']['activiti']['port'] = node['internal_lb']['activiti_port']

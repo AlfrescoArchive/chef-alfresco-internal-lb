@@ -1,3 +1,11 @@
+resource_name :alfresco_haproxy_config
+
+property :error_folder, String
+property :alfresco_components, Array
+property :backend_roles, Hash
+property :jvm_route, String
+property :enable_ec2_discovery, kind_of: [TrueClass, FalseClass], default: false
+
 default_action :nothing
 
 load_current_value do
@@ -5,29 +13,28 @@ end
 
 action :run do
   # Add error pages to external frontend
-  error_folder = node['alfresco']['errorpages']['error_folder']
   %w( 400 403 408 500 502 503 504 ).each do |error_code|
     node.default['haproxy']['frontends']['external']['entries'] << "errorfile #{error_code} #{error_folder}/#{error_code}.http"
     node.default['haproxy']['frontends']['external']['entries'] << "acl is_#{error_code}_error status eq #{error_code}"
     node.default['haproxy']['frontends']['external']['entries'] << "rspideny . if is_#{error_code}_error"
   end
 
-  haproxy_backends = node['haproxy']['backends']['roles'].to_hash.clone
+  haproxy_backends = backend_roles.to_hash.clone
 
   # Define HaProxy local backends
-  node['alfresco']['components'].each do |component|
+  alfresco_components.each do |component|
     next unless %w( share solr repo activiti ).include?(component)
     component = 'alfresco' if component == 'repo'
     id = "local_#{component}_backend"
 
     # Make sure the hash structure is created
-    Ec2Discovery.setDeepAttribute(haproxy_backends, [component, 'az', 'local', 'id', id], {})
+    Ec2Discovery.set_deep_attribute(haproxy_backends, [component, 'az', 'local', 'id', id], {})
 
     haproxy_backends[component]['az']['local']['id'][id]['id'] = id
     haproxy_backends[component]['az']['local']['id'][id]['ip'] = '127.0.0.1'
     haproxy_backends[component]['az']['local']['id'][id]['az'] = 'local'
     haproxy_backends[component]['az']['local']['id'][id]['name'] = id
-    haproxy_backends[component]['az']['local']['id'][id]['jvm_route'] = node['tomcat']['jvm_route']
+    haproxy_backends[component]['az']['local']['id'][id]['jvm_route'] = jvm_route
 
     # Enable balancing for Share backend
     haproxy_backends[component]['balanced'] = case component
@@ -39,11 +46,11 @@ action :run do
   end
 
   current_az = nil
-  if node['haproxy']['ec2']['discovery_enabled']
+  if enable_ec2_discovery
     # Run EC2 discovery
     ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2_discovery'])
 
-    current_az = Ec2Discovery.getCurrentAz
+    current_az = Ec2Discovery.az_current
     # Merge local and EC2 configuration entries
     haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends, ec2_discovery_output['haproxy_backends'])
   end
@@ -97,8 +104,7 @@ action :run do
   end
 
   template '/etc/haproxy/haproxy.cfg' do
-    source node['haproxy']['conf_template_source']
-    cookbook node['haproxy']['conf_cookbook']
+    source 'haproxy/haproxy.cfg.erb'
     variables(haproxy_backends: haproxy_backends)
     notifies :restart, 'service[haproxy]', :delayed
   end

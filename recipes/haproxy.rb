@@ -1,8 +1,18 @@
 enable_rsyslog_server = node['internal_lb']['enable_rsyslog_server']
 rsyslog_bind = node['haproxy']['rsyslog_bind']
 
-include_recipe 'alfresco::_certs'
-include_recipe 'alfresco::_errorpages'
+create_certs 'Creation of haproxy certs' do
+  ssl_filename node['internal_lb']['certs']['filename']
+  ssl_fqdn node['internal_lb']['hostname']
+  ssl_folder node['internal_lb']['certs']['ssl_folder']
+  ssl_databag node['internal_lb']['certs']['databag_name']
+  ssl_databag_item node['internal_lb']['certs']['databag_item']
+  skip_certificate_creation node['internal_lb']['certs']['skip_certificate_creation']
+
+  action :run
+end
+
+include_recipe 'commons::error-pages'
 
 if node['internal_lb']['enable_ssl_header']
   node.default['haproxy']['frontends']['external']['headers'] = node['haproxy']['ssl_header']

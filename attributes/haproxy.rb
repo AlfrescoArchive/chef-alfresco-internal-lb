@@ -21,7 +21,6 @@ default['haproxy']['stats_auth'] = 'admin'
 default['haproxy']['stats_pwd'] = 'changeme'
 
 default['haproxy']['log_level'] = 'info'
-default['haproxy']['enable_ssl_header'] = true
 default['haproxy']['ssl_header'] = 'http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;'
 
 # default['haproxy']['logging'] = "option httplog"

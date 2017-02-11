@@ -19,22 +19,15 @@ default['haproxy']['default_backend'] = 'share'
 default['haproxy']['stats_port'] = '1936'
 default['haproxy']['stats_auth'] = 'admin'
 default['haproxy']['stats_pwd'] = 'changeme'
-----
 
-
-
-
-
-
-----
 default['haproxy']['log_level'] = 'info'
 default['haproxy']['enable_ssl_header'] = true
 default['haproxy']['ssl_header'] = 'http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;'
 
-#default['haproxy']['logging'] = "option httplog"
+# default['haproxy']['logging'] = "option httplog"
 default['haproxy']['logging_json_enabled'] = false
 default['haproxy']['logformat'] = '#- wibble'
-default['haproxy']['json_logformat'] = "log-format  {\"type\":\"haproxy\",\"timestamp\":%t,\"actconn\":%ac,\"feconn\":%fc,\"beconn\":%bc,\"backend_queue\":%bq,\"srv_conn\":%sc,\"retry\":%rc,\"tq\":%Tq,\"tw\":%Tw,\"tc\":%Tc,\"tr\":%Tr,\"tt\":%Tt,\"tsc\":\"%tsc\",\"client_addr\":\"%ci:%cp\",\"front_addr\":\"%fi:%fp\",\"front_transport\":\"%ft\",\"ssl_version\":\"%sslv\",\"ssl_cipher\":\"%sslc\",\"http_status\":%ST,\"http_req\":\"%r\",\"back_name\":\"%b\",\"back_server\":\"%s\",\"req_header_cap\":\"%hr\",\"resp_header_cap\":\"%hs\",\"bytes_uploaded\":%U,\"bytes_read\":%B,\"unique_id\":\"%ID\"} "
+default['haproxy']['json_logformat'] = 'log-format  {\"type\":\"haproxy\",\"timestamp\":%t,\"actconn\":%ac,\"feconn\":%fc,\"beconn\":%bc,\"backend_queue\":%bq,\"srv_conn\":%sc,\"retry\":%rc,\"tq\":%Tq,\"tw\":%Tw,\"tc\":%Tc,\"tr\":%Tr,\"tt\":%Tt,\"tsc\":\"%tsc\",\"client_addr\":\"%ci:%cp\",\"front_addr\":\"%fi:%fp\",\"front_transport\":\"%ft\",\"ssl_version\":\"%sslv\",\"ssl_cipher\":\"%sslc\",\"http_status\":%ST,\"http_req\":\"%r\",\"back_name\":\"%b\",\"back_server\":\"%s\",\"req_header_cap\":\"%hr\",\"resp_header_cap\":\"%hs\",\"bytes_uploaded\":%U,\"bytes_read\":%B,\"unique_id\":\"%ID\"} '
 
 default['haproxy']['ssl_chain_file'] = "#{node['internal_lb']['certs']['ssl_folder']}/#{node['internal_lb']['certs']['filename']}.chain"
 
@@ -52,7 +45,6 @@ default['haproxy']['general_config'] = [
   'tune.ssl.maxrecord 1419',
   'spread-checks 5'
 ]
-
 
 default['haproxy']['default_config'] = [
   'mode http',
@@ -82,9 +74,8 @@ default['haproxy']['default_config'] = [
   'timeout check 5s',
   'timeout tarpit 60s',
   'compression algo gzip',
-  'compression type text/html text/html;charset=utf-8 text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/atom+xml;type=entry application/atom+xml;type=feed application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json',
+  'compression type text/html text/html;charset=utf-8 text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/atom+xml;type=entry application/atom+xml;type=feed application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json'
 ]
-
 
 default['haproxy']['frontends']['internal']['entries'] = [
   "bind #{node['haproxy']['bind_ip']}:#{node['internal_lb']['port']}",
@@ -205,10 +196,7 @@ default['haproxy']['secure_entries'] = [
   'rspirep ^(set-cookie:.*) \\1;\\ Secure if !secured_cookie'
 ]
 
-
-
 default['haproxy']['backends']['roles']['share']['port'] = node['internal_lb']['share_port']
-
 
 # Solr Haproxy configuration
 default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']

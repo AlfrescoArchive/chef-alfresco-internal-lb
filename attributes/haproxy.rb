@@ -37,7 +37,7 @@ hsts_header = node['haproxy']['ssl_header'] if node['internal_lb']['enable_ssl_h
 default['haproxy']['general_config'] = [
   'tune.ssl.default-dh-param 2048',
   # Logging should be handled with logstash-forwarder
-  "log 127.0.0.1 local2 #{node['haproxy']['log_level']}",
+  "log 127.0.0.1 local2 #{node['internal_lb']['log_level']}",
   'pidfile /var/run/haproxy.pid',
   'stats socket /var/run/haproxy.stat user haproxy group haproxy mode 600 level admin',
   'user haproxy',

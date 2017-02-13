@@ -15,7 +15,7 @@ end
 include_recipe 'commons::error-pages'
 
 if node['internal_lb']['enable_ssl_header']
-  node.default['haproxy']['frontends']['external']['headers'] = node['haproxy']['ssl_header']
+  node.default['haproxy']['frontends']['external']['headers'] = [node['haproxy']['ssl_header']]
   node.default['haproxy']['backends']['share']['secure_entries'] = node['haproxy']['secure_entries']
 end
 

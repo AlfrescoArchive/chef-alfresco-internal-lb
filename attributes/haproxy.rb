@@ -160,9 +160,6 @@ default['haproxy']['frontends']['external']['entries'] = [
   hsts_header
 ]
 
-default['haproxy']['enable_ssl_header'] = node['internal_lb']['enable_ssl_header']
-default['haproxy']['ssl_header'] = 'http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;'
-
 default['haproxy']['frontends']['external']['headers'] = []
 
 default['haproxy']['frontends']['stats']['entries'] = [

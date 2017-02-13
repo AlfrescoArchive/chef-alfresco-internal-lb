@@ -18,9 +18,9 @@ describe port(9001) do
   its('processes') { should include(/haproxy/) }
 end
 
-control "02-internal-lb" do
+control '02-internal-lb' do
   impact 0.5
-  title "HA Proxy Configuration Check"
+  title 'HA Proxy Configuration Check'
 
   describe file('/etc/haproxy/haproxy.cfg') do
     it { should exist }

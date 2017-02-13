@@ -18,10 +18,11 @@ platforms:
       run_command: /usr/sbin/init
       privileged: true
       forward:
+      - 9000:9000
       - 9001:9001
 
 suites:
-  - name: haproxy
+  - name: default
     run_list:
       - recipe[netstat]
       - recipe[alfresco-internal-lb::default]

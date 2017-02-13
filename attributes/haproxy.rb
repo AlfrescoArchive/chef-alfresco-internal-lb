@@ -111,7 +111,7 @@ default['haproxy']['frontends']['external']['other_config'] = [
 ]
 
 default['haproxy']['frontends']['external']['entries'] = [
-  "bind #{node['haproxy']['bind_ip']}:#{node['internal_lb']['internal_secure_port']}",
+  "bind #{node['haproxy']['bind_ip']}:#{node['internal_lb']['secure_port']}",
   'mode http',
   # Force HTTPS
   # "redirect scheme https if !{ ssl_fc }",

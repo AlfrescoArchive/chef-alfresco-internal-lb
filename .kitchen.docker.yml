@@ -22,7 +22,7 @@ platforms:
       - 9001:9001
 
 suites:
-  - name: default
+  - name: haproxy
     run_list:
       - recipe[netstat]
       - recipe[alfresco-internal-lb::default]

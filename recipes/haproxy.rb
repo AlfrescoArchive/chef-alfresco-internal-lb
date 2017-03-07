@@ -63,7 +63,9 @@ directory '/var/log/haproxy' do
   owner 'haproxy'
   group 'haproxy'
 end
+
 template '/etc/rsyslog.d/haproxy.conf' do
+  action :create
   source 'rsyslog/haproxy.conf.erb'
   only_if { node['haproxy']['enable_local_logging'] }
 end

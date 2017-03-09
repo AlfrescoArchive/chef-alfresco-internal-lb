@@ -19,3 +19,7 @@ default['internal_lb']['alfresco_port'] = 8070
 default['internal_lb']['ec2']['install_haproxy_discovery'] = false
 default['internal_lb']['ec2']['enable_ec2_discovery'] = false
 default['internal_lb']['logging_json_enabled'] = false
+default['internal_lb']['ec2']['discovery_chef_erb']['source'] = 'haproxy/haproxy-discovery.cron.erb'
+default['internal_lb']['ec2']['discovery_chef_erb']['dest'] = '/etc/cron.d/haproxy-discovery.cron'
+default['internal_lb']['ec2']['discovery_chef_json']['source'] = 'haproxy/haproxy-discovery.json.erb'
+default['internal_lb']['ec2']['discovery_chef_json']['dest'] = '/etc/chef/haproxy-discovery.json'

@@ -33,6 +33,10 @@ The default choice is Haproxy, but it can be expanded to use your own engine.
 | default['internal_lb']['ec2']['enable_ec2_discovery'] | Boolean  | (EC2 only) [Use haproxy discovery system](https://github.com/Alfresco/chef-commons/blob/master/recipes/ec2-discovery.rb) | false |
 | default['internal_lb']['ec2']['install_haproxy_discovery'] | Boolean  | (EC2 only) Enable discovery of other nodes in the same AZ | false |
 | default['internal_lb']['logging_json_enabled'] | Boolean  | Enable JSON Logging | false |
+| default['internal_lb']['ec2']['discovery_chef_erb']['dest'] | String  | OS path of ha-proxy discovery cron file | '/etc/cron.d/haproxy-discovery.cron' |
+| default['internal_lb']['ec2']['discovery_chef_erb']['source'] | String  | Cookbook path of ha-proxy discovery cron file | 'haproxy/haproxy-discovery.cron.erb' |
+| default['internal_lb']['ec2']['discovery_chef_json']['dest'] | String  | OS path of ha-proxy discovery JSON file | '/etc/chef/haproxy-discovery.json' |
+| default['internal_lb']['ec2']['discovery_chef_json']['source'] | String  | Cookbook path of ha-proxy discovery JSON file | 'haproxy/haproxy-discovery.json.erb' |
 ## Usage
 
 Just add the reference of this cookbook inside your `metadata.rb` file:

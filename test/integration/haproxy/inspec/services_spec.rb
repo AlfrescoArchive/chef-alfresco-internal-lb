@@ -11,19 +11,34 @@ control '01-internal-lb' do
     it { should be_enabled }
     it { should be_running }
   end
-end
 
-describe port(9001) do
-  it { should be_listening }
-  its('processes') { should include(/haproxy/) }
+  describe user('haproxy') do
+      it { should exist }
+    end
+
+  describe group('haproxy') do
+      it { should exist }
+    end
 end
 
 control '02-internal-lb' do
   impact 0.5
   title 'HA Proxy Configuration Check'
 
-  describe file('/etc/haproxy/haproxy.cfg') do
-    it { should exist }
-    it { should be_file }
+  describe port(9000) do
+      it { should be_listening }
+      its('processes') { should include(/haproxy/) }
+  end
+
+  describe port(9001) do
+    it { should be_listening }
+    its('processes') { should include(/haproxy/) }
+  end
+  
+  describe port(1936) do
+    it { should be_listening }
+    its('processes') { should include(/haproxy/) }
   end
 end
+
+
